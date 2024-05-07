@@ -1,8 +1,8 @@
 from pathlib import Path
 
 from joblib import dump
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from tira.rest_api_client import Client
 
@@ -21,7 +21,10 @@ if __name__ == "__main__":
 
     # Train the model
     model = Pipeline(
-        [("vectorizer", CountVectorizer()), ("classifier", MultinomialNB())]
+        [
+            ("vectorizer", TfidfVectorizer(max_features=1000)),
+            ("classifier", LogisticRegression()),
+        ]
     )
     model.fit(df["text"], df["generated"])
 

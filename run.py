@@ -18,10 +18,12 @@ if __name__ == "__main__":
 
     pred1 = model.predict_proba(df["text1"])
     pred2 = model.predict_proba(df["text2"])
+    p_text_1_human = pred1[:, 0]
     p_text_1_llm = pred1[:, 1]
     p_text_2_human = pred2[:, 0]
+    p_text_2_llm = pred2[:, 1]
 
-    df["is_human"] = p_text_1_llm + p_text_2_human / 2
+    df["is_human"] = (p_text_1_llm + p_text_2_human) / 2
     df = df[["id", "is_human"]]
 
     # Save the predictions
